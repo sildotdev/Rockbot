@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const port = 8080
+const bot = require('./src/bot/bot')
 
 app.get('/', (req, res) => {
     res.send('Hello World!')
