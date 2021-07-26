@@ -1,3 +1,16 @@
 {
-    "token": "YOUR_TOKEN_HERE"
+    "token": "YOUR_TOKEN_HERE",
+
+    "debug": {
+        "enabled": true,
+        "channel": "869049075364954184"
+    },
+
+    "covid": {
+        "enabled":  true,
+
+        "stats": {
+            "enabled": true
+        }
+    }
 }
