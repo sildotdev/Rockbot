@@ -1,0 +1,23 @@
+{
+  "name": "rockbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sildotdev/Rockbot.git"
+  },
+  "author": "sildotdev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sildotdev/Rockbot/issues"
+  },
+  "homepage": "https://github.com/sildotdev/Rockbot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "express": "^4.17.1"
+  }
+}
