@@ -10,7 +10,23 @@
         "enabled":  true,
 
         "stats": {
-            "enabled": true
+            "enabled": true,
+            "channel": "869068395629408326"
+        },
+
+        "level": {
+            "enabled": true,
+            "channel": "869073194320003082"
+        },
+
+        "cases": {
+            "enabled": true,
+            "channel": "869635526230159390"
+        },
+
+        "news": {
+            "enabled": true,
+            "channel": "870338687228072008"
         }
     }
 }
