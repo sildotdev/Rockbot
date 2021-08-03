@@ -2,6 +2,7 @@ const Discord = require('discord.js')
 const config = require('../../../config/bot.json')
 const request = require('request')
 const cheerio = require('cheerio')
+const schedule = require('node-schedule');
 const path = require('path')
 
 const ACTIVITY_LEVELS = {
@@ -23,16 +24,20 @@ const ACTIVITY_LEVELS = {
     },
 }
 
-let CurrentLevel = ACTIVITY_LEVELS["YELLOW"]
-let LevelDescription = "Increases in in-person activity due to low testing positivity and favorable local trends."
+let CurrentLevel = false
+let LevelDescription = false
 
 module.exports = (client) => {
     if (!config.covid.enabled) return;
 
     client.on('ready', () => {
-        //levelUpdate()
-        //statsUpdate()
-        caseUpdate()
+        var statsSchedule = schedule.scheduleJob('0 23 * * 4', statsUpdate);
+        var statsSchedule2 = schedule.scheduleJob('0 23 * * 1', statsUpdate);
+        var caseSchedule = schedule.scheduleJob('0 20 * * 5', caseUpdate);
+        var levelSchedule = schedule.scheduleJob('30 * * * * *', levelUpdate);
+        var newsSchedule = schedule.scheduleJob('45 * * * * *', newsUpdate);
+
+        levelUpdate()
     })
 
     function statsUpdate() {
@@ -99,9 +104,14 @@ module.exports = (client) => {
             }
 
             let $ = cheerio.load(body)
+
             LevelDescription = $('#main-content > div > section:nth-child(1) > div.section-top.contain-970 > p:nth-child(3)').text()
-            
             let level = $('#main-content > div > section:nth-child(1) > div.section-top.contain-970 > p.subhead').attr('class').split('-')[1].toUpperCase()
+            
+            if (!CurrentLevel) {
+                CurrentLevel = ACTIVITY_LEVELS[level]
+            }
+
             
             if (CurrentLevel != ACTIVITY_LEVELS[level]) {
                 let embed = new Discord.MessageEmbed()
@@ -128,6 +138,8 @@ module.exports = (client) => {
                     ).catch((err) => {
                         console.error('Could not fetch COVID-19 level update channel: ' + err)
                     })
+                
+                CurrentLevel = ACTIVITY_LEVELS[level]
             }
         })
     }
@@ -180,7 +192,7 @@ module.exports = (client) => {
                 .setURL('https://www.northwestern.edu/coronavirus-covid-19-updates/university-status/dashboard/index.html')
                 .setDescription(LevelDescription)
                 .attachFiles([path.join(__dirname, '../../public/img/nu.jpg')])
-                .setAuthor('Northwestern COVID-19 Statistics Update', 'attachment://nu.jpg', 'https://www.northwestern.edu/coronavirus-covid-19-updates/index.html')
+                .setAuthor('Northwestern COVID-19 Case Update', 'attachment://nu.jpg', 'https://www.northwestern.edu/coronavirus-covid-19-updates/index.html')
 
             for (let k in latestData) {
                 embed.addField(k, latestData[k].value + ' (' + latestData[k].percentChange + ')', true)
