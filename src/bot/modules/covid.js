@@ -45,6 +45,7 @@ module.exports = (client) => {
 
         request('https://www.northwestern.edu/coronavirus-covid-19-updates/university-status/dashboard/index.html', (err, res, body) => {
             if (err || !res || !body || res.statusCode != 200) {
+                console.error('statsUpdate request failed. Status code: ' + res.statusCode + '. Error: ' + err)
                 return
             }
 
@@ -100,6 +101,7 @@ module.exports = (client) => {
 
         request('https://www.northwestern.edu/coronavirus-covid-19-updates/index.html', (err, res, body) => {
             if (err || !res || !body || res.statusCode != 200) {
+                console.error('levelUpdate request failed. Status code: ' + res.statusCode + '. Error: ' + err)
                 return
             }
 
@@ -149,6 +151,7 @@ module.exports = (client) => {
 
         request('https://www.northwestern.edu/coronavirus-covid-19-updates/university-status/dashboard/index.html', (err, res, body) => {
             if (err || !res || !body || res.statusCode != 200) {
+                console.error('caseUpdate request failed. Status code: ' + res.statusCode + '. Error: ' + err)
                 return
             }
 
@@ -225,7 +228,7 @@ module.exports = (client) => {
         
         request('https://www.northwestern.edu/coronavirus-covid-19-updates/developments/index.html', (err, res, body) => {
             if (err || !res || !body || res.statusCode != 200) {
-                //fail('newsUpdate request failed. Status code: ' + res.statusCode + '. Error: ' + err)
+                console.error('newsUpdate request failed. Status code: ' + res.statusCode + '. Error: ' + err)
                 return
             }
             
