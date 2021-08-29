@@ -27,7 +27,7 @@ const ACTIVITY_LEVELS = {
 let CurrentLevel = false
 let LevelDescription = false
 
-function GetLevelDescription() {
+function getLevelDescription() {
     return LevelDescription ? LevelDescription : "*Error retrieving Northwestern COVID-19 level.*"
 }
 
@@ -74,7 +74,7 @@ module.exports = (client) => {
                 .setColor(CurrentLevel.color || '#ffffff')
                 .setTitle(`Activity Level: **${CurrentLevel.name}**`)
                 .setURL('https://www.northwestern.edu/coronavirus-covid-19-updates/university-status/dashboard/index.html')
-                .setDescription(GetLevelDescription())
+                .setDescription(getLevelDescription())
                 .attachFiles([path.join(__dirname, '../../public/img/nu.jpg')])
                 .setAuthor('Northwestern COVID-19 Statistics Update', 'attachment://nu.jpg', 'https://www.northwestern.edu/coronavirus-covid-19-updates/index.html')
                 .setTimestamp()
@@ -128,7 +128,7 @@ module.exports = (client) => {
                     .setColor(ACTIVITY_LEVELS[level].color || '#ffffff')
                     .setTitle(`Activity level changed from ${CurrentLevel.name} to **${level}**`)
                     .setURL('https://www.northwestern.edu/coronavirus-covid-19-updates/university-status/dashboard/index.html')
-                    .setDescription(GetLevelDescription())
+                    .setDescription(getLevelDescription())
                     .attachFiles([path.join(__dirname, '../../public/img/nu.jpg')])
                     .setAuthor('Northwestern COVID-19 Level Update', 'attachment://nu.jpg', 'https://www.northwestern.edu/coronavirus-covid-19-updates/index.html')
                     .addField('Disclaimer', 'Please double check this information by clicking the link above. Further updates will likely be communicated through e-mail by Northwestern officials.', false)
@@ -201,7 +201,7 @@ module.exports = (client) => {
                 .setColor(CurrentLevel.color || '#ffffff')
                 .setTitle(`Northwestern COVID-19 case update for ${latestDate}`)
                 .setURL('https://www.northwestern.edu/coronavirus-covid-19-updates/university-status/dashboard/index.html')
-                .setDescription(GetLevelDescription())
+                .setDescription(getLevelDescription())
                 .attachFiles([path.join(__dirname, '../../public/img/nu.jpg')])
                 .setAuthor('Northwestern COVID-19 Case Update', 'attachment://nu.jpg', 'https://www.northwestern.edu/coronavirus-covid-19-updates/index.html')
 
