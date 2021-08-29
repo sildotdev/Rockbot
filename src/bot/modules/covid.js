@@ -27,6 +27,10 @@ const ACTIVITY_LEVELS = {
 let CurrentLevel = false
 let LevelDescription = false
 
+function GetLevelDescription() {
+    return LevelDescription ? LevelDescription : "*Error retrieving Northwestern COVID-19 level.*"
+}
+
 module.exports = (client) => {
     if (!config.covid.enabled) return;
 
@@ -38,6 +42,10 @@ module.exports = (client) => {
         var newsSchedule = schedule.scheduleJob('45 * * * * *', newsUpdate);
 
         levelUpdate()
+        newsUpdate()
+
+        // statsUpdate()
+        // caseUpdate()
     })
 
     function statsUpdate() {
@@ -64,9 +72,9 @@ module.exports = (client) => {
 
             let embed = new Discord.MessageEmbed()
                 .setColor(CurrentLevel.color || '#ffffff')
-                .setTitle(`Current Activity Level: **${CurrentLevel.name}**`)
+                .setTitle(`Activity Level: **${CurrentLevel.name}**`)
                 .setURL('https://www.northwestern.edu/coronavirus-covid-19-updates/university-status/dashboard/index.html')
-                .setDescription(LevelDescription)
+                .setDescription(GetLevelDescription())
                 .attachFiles([path.join(__dirname, '../../public/img/nu.jpg')])
                 .setAuthor('Northwestern COVID-19 Statistics Update', 'attachment://nu.jpg', 'https://www.northwestern.edu/coronavirus-covid-19-updates/index.html')
                 .setTimestamp()
@@ -120,7 +128,7 @@ module.exports = (client) => {
                     .setColor(ACTIVITY_LEVELS[level].color || '#ffffff')
                     .setTitle(`Activity level changed from ${CurrentLevel.name} to **${level}**`)
                     .setURL('https://www.northwestern.edu/coronavirus-covid-19-updates/university-status/dashboard/index.html')
-                    .setDescription(LevelDescription)
+                    .setDescription(GetLevelDescription())
                     .attachFiles([path.join(__dirname, '../../public/img/nu.jpg')])
                     .setAuthor('Northwestern COVID-19 Level Update', 'attachment://nu.jpg', 'https://www.northwestern.edu/coronavirus-covid-19-updates/index.html')
                     .addField('Disclaimer', 'Please double check this information by clicking the link above. Further updates will likely be communicated through e-mail by Northwestern officials.', false)
@@ -193,7 +201,7 @@ module.exports = (client) => {
                 .setColor(CurrentLevel.color || '#ffffff')
                 .setTitle(`Northwestern COVID-19 case update for ${latestDate}`)
                 .setURL('https://www.northwestern.edu/coronavirus-covid-19-updates/university-status/dashboard/index.html')
-                .setDescription(LevelDescription)
+                .setDescription(GetLevelDescription())
                 .attachFiles([path.join(__dirname, '../../public/img/nu.jpg')])
                 .setAuthor('Northwestern COVID-19 Case Update', 'attachment://nu.jpg', 'https://www.northwestern.edu/coronavirus-covid-19-updates/index.html')
 
