@@ -41,11 +41,8 @@ module.exports = (client) => {
         var levelSchedule = schedule.scheduleJob('30 * * * * *', levelUpdate);
         var newsSchedule = schedule.scheduleJob('45 * * * * *', newsUpdate);
 
-        levelUpdate()
+        levelUpdate(runCaseUpdate=true, runStatsUpdate=true)
         newsUpdate()
-
-        // statsUpdate()
-        // caseUpdate()
     })
 
     function statsUpdate() {
@@ -104,7 +101,7 @@ module.exports = (client) => {
         })
     }
 
-    function levelUpdate() {
+    function levelUpdate(runStatsUpdate=false, runCaseUpdate=false) {
         if (!config.covid.level.enabled) return;
 
         request('https://www.northwestern.edu/coronavirus-covid-19-updates/index.html', (err, res, body) => {
@@ -122,7 +119,6 @@ module.exports = (client) => {
                 CurrentLevel = ACTIVITY_LEVELS[level]
             }
 
-            
             if (CurrentLevel != ACTIVITY_LEVELS[level]) {
                 let embed = new Discord.MessageEmbed()
                     .setColor(ACTIVITY_LEVELS[level].color || '#ffffff')
@@ -151,6 +147,9 @@ module.exports = (client) => {
                 
                 CurrentLevel = ACTIVITY_LEVELS[level]
             }
+
+            if (runCaseUpdate) caseUpdate();
+            if (runStatsUpdate) statsUpdate();
         })
     }
 
